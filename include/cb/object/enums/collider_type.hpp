@@ -3,11 +3,10 @@
 
 CB_BEGIN_NAMESPACE
 
-class World {
-    std::vector<Object> objects;
-
-public:
-    pWorld Create();
+enum class COLLIDER_TYPE {
+    PLANE,
+	SPHERE,
+	MESH
 };
 
 CB_END_NAMESPACE

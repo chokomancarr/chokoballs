@@ -1,3 +1,4 @@
+#pragma once
 #include "chokoballs.hpp"
 
 CB_BEGIN_NAMESPACE

@@ -17,6 +17,9 @@ typedef int CB_STATUS;
 #define CB_NOT_IMPLEMENTED\
     throw std::logic_error("Function not implemented!");
 
+#define MAX_LAYER_ID 63
+#define LAYER_MASK_TYPE uint64_t
+
 #ifdef _MSC_VER
 	#pragma warning(disable:4996)
 #endif

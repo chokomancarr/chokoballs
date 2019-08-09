@@ -34,7 +34,8 @@ endif()
 
 set(INC_DIRS
 	${PROJECT_SOURCE_DIR}/include
-	${GLM_INCLUDE_DIR}
+	${PROJECT_SOURCE_DIR}/src
+	${GLM_INCLUDE_DIRS}
 )
 
 set(LINK_DIRS )
@@ -63,6 +64,9 @@ include_directories(${INC_DIRS})
 link_directories(${LINK_DIRS})
 
 add_subdirectory("src")
+add_subdirectory("src/types")
+add_subdirectory("src/object")
+add_subdirectory("src/object/collider")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)

@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <thread>
 #include <vector>
 
 #define GLM_ENABLE_EXPERIMENTAL
@@ -17,13 +18,11 @@
 
 CB_BEGIN_NAMESPACE
 
-typedef glm::mat4 Mat4;
-typedef glm::vec3 Vec3;
-typedef glm::quat Quat;
-
 class ChokoBalls;
 
 #define CB_OBJECT(nm) class nm; typedef std::shared_ptr<nm> p ## nm;
+
+CB_OBJECT(Backend_Base)
 
 CB_OBJECT(Object)
 CB_OBJECT(Object_Rigidbody)

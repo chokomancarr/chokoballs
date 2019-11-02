@@ -9,7 +9,7 @@ protected:
 	Object_Collider(COLLIDER_TYPE);
 
 public:
-	const COLLIDER_TYPE type;
+	const COLLIDER_TYPE colliderType;
 
 	/* Axis-aligned bounds of this object.
 	 */
@@ -19,4 +19,4 @@ public:
 CB_END_NAMESPACE
 
 #include "collider/plane_collider.hpp"
-#include "collider/sphere_collider.hpp"
+//#include "collider/sphere_collider.hpp"

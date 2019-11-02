@@ -63,17 +63,14 @@ endif()
 include_directories(${INC_DIRS})
 link_directories(${LINK_DIRS})
 
-add_subdirectory("src")
-add_subdirectory("src/types")
-add_subdirectory("src/object")
-add_subdirectory("src/object/collider")
-
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
-add_library(ChokoBalls SHARED ${SOURCES} ${HEADERS})
+add_library(ChokoBalls SHARED "")
+
+add_subdirectory("src")
 
 target_link_libraries(ChokoBalls ${LIBS})

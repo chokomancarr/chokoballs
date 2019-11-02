@@ -1,5 +1,6 @@
 #pragma once
 #include "chokoballs.hpp"
+#include "enums/object_type.hpp"
 
 CB_BEGIN_NAMESPACE
 
@@ -8,10 +9,12 @@ CB_BEGIN_NAMESPACE
  */
 class Object {
 protected:
-	Object() {}
+	Object(OBJECT_TYPE t) : type(t) {}
 
 public:
 	
+	const OBJECT_TYPE type;
+
 	/* Is this object affected by physics updates?
 	 */
 	bool dynamic = true;

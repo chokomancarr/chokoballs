@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 #define CB_VERSION_MAJOR 0
 #define CB_VERSION_MINOR 1
@@ -10,15 +11,19 @@
 #define CB_BEGIN_NAMESPACE namespace CB_NAMESPACE {
 #define CB_END_NAMESPACE }
 
-typedef int CB_STATUS;
-#define CB_STATUS_OK 0
-#define CB_STATUS_NO_BACKEND 1
+enum CB_STATUS {
+	OK = 0,
+	BACKEND_NOT_SUPPORTED,
+	BACKEND_ERROR,
+	DEVICE_ERROR,
+	OUT_OF_MEMORY_ERROR
+};
 
 #define CB_NOT_IMPLEMENTED\
-    throw std::logic_error("Function not implemented!");
+    throw std::logic_error("Function " __function__ " not implemented!");
 
-#define MAX_LAYER_ID 63
-#define LAYER_MASK_TYPE uint64_t
+typedef uint64_t LAYER_MASK_TYPE;
+const uint8_t MAX_LAYER_ID = 63;
 
 #ifdef _MSC_VER
 	#pragma warning(disable:4996)

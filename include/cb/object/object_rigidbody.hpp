@@ -4,32 +4,31 @@
 CB_BEGIN_NAMESPACE
 
 class Object_Rigidbody : public Object {
-protected:
-	Object_Rigidbody();
-
 public:
+	Object_Rigidbody(OBJECT_TYPE t = OBJECT_TYPE_NONE);
+
 	/* mass
 	 */
 	float mass;
 
 	/* world position
 	 */
-	Vec3 position;
+	glm::vec3 position;
 	/* world rotation
 	 */
-	Quat rotation;
+	glm::quat rotation;
 	/* world scale
 	 * this value should not change during simulation
 	 */
-	Vec3 scale;
+	glm::vec3 scale;
 
 	/* linear velocity
 	 */
-	Vec3 velocity;
+	glm::vec3 velocity;
 	
 	/* rotational velocity
 	 */
-	Vec3 rotVelocity;
+	glm::vec3 rotVelocity;
 };
 
 CB_END_NAMESPACE

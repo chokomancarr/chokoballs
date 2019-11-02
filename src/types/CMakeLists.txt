@@ -1,7 +1,3 @@
-set(DIR src/types)
-
-set(SOURCES
-	${SOURCES}
-	${DIR}/bbox.cpp
-	PARENT_SCOPE
+target_sources(ChokoBalls PRIVATE
+	${CMAKE_CURRENT_SOURCE_DIR}/bbox.cpp
 )

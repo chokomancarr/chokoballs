@@ -10,7 +10,7 @@ struct BBox {
 		y0, y1,
 		z0, z1;
 
-	BBox ToAABB(const BBox&, const Mat4&);
+	BBox ToAABB(const BBox&, const glm::mat4&);
 };
 
 CB_END_NAMESPACE

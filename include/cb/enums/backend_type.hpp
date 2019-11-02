@@ -4,11 +4,13 @@
 CB_BEGIN_NAMESPACE
 
 enum class BACKEND_TYPE {
+	CPU,
     OPENCL,
 
     /* TODO: implement these
     GLSL,
     CUDA,
+	etc
     */
 };
 

@@ -1,21 +1,22 @@
 #pragma once
 #include "chokoballs_internal.hpp"
-#include "bvh/bvh_builder.hpp"
+//#include "bvh/bvh_builder.hpp"
+#include "object/impl_object.hpp"
 
 CB_BEGIN_NAMESPACE
 
-class Backend_CPU : public Backend_Base {
-	std::vector<pObject> objects;
-	BVHObject tree;
+class _Backend_CPU : public _Backend_Base {
+//	std::vector<pObject> objects;
+//	BVHObject tree;
 
 	std::thread computeThread;
 
-	static void Dispatch(Backend_CPU&);
+	static void Dispatch(_Backend_CPU*);
 
 public:
-	Backend_CPU();
+	_Backend_CPU();
 
-	CB_STATUS BeginUpdate(World* const) override;
+	CB_STATUS BeginUpdate(const World*) override;
 
 	CB_STATUS FinishUpdate(World&) override;
 };

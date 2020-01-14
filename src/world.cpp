@@ -2,17 +2,17 @@
 
 CB_BEGIN_NAMESPACE
 
-World::World() : deltaTime(1.f / 20), timeScale(1), objects() {}
+_World::_World() : deltaTime(1.f / 20), timeScale(1), objects() {}
 
-void World::Clear() {
+void _World::Clear() {
 	objects.clear();
 }
 
-void World::AddObject(const pObject& o) {
+void _World::AddObject(const Object& o) {
 	objects.push_back(o);
 }
 
-void World::RemoveObject(const pObject& o) {
+void _World::RemoveObject(const Object& o) {
 	auto it = std::find(objects.begin(), objects.end(), o);
 	if (it != objects.end()) {
 		std::swap(*it, objects.back());
@@ -20,11 +20,11 @@ void World::RemoveObject(const pObject& o) {
 	}
 }
 
-CB_STATUS World::BeginUpdate() {
+CB_STATUS _World::BeginUpdate() {
 	return ChokoBalls::backend->BeginUpdate(this);
 }
 
-CB_STATUS World::FinishUpdate() {
+CB_STATUS _World::FinishUpdate() {
 	return ChokoBalls::backend->FinishUpdate(*this);
 }
 

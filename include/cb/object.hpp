@@ -4,12 +4,12 @@
 
 CB_BEGIN_NAMESPACE
 
-/* A unique object in the world.
+/* An unique object in the world.
  * 
  */
-class Object {
+class _Object {
 protected:
-	Object(OBJECT_TYPE t) : type(t) {}
+	_Object(OBJECT_TYPE t) : type(t) {}
 
 public:
 	
@@ -25,7 +25,7 @@ public:
 
 	/* Only objects with these layer IDs will affect / be affected by this object
 	 */
-	uint64_t layer_mask = ~0Ui64;
+	uint64_t layer_mask = ~uint64_t(0);
 };
 
 CB_END_NAMESPACE

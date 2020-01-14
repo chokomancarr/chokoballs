@@ -16,11 +16,15 @@
 #include "glm/gtx/transform.hpp"
 #include "glm/gtx/quaternion.hpp"
 
+#include "ext/ptrref.hpp"
+
 CB_BEGIN_NAMESPACE
 
 class ChokoBalls;
 
-#define CB_OBJECT(nm) class nm; typedef std::shared_ptr<nm> p ## nm;
+#define CB_OBJECT(nm)\
+    class _ ## nm;\
+    typedef Ref<_ ## nm> nm;
 
 CB_OBJECT(Backend_Base)
 

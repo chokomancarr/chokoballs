@@ -4,9 +4,12 @@
 
 CB_BEGIN_NAMESPACE
 
-class Object_Collider : public Object_Rigidbody {
+/* Object with mass and volume
+ * Must be spawned as specific collider instance
+ */
+class _Object_Collider : public _Object_Rigidbody {
 protected:
-	Object_Collider(COLLIDER_TYPE);
+	_Object_Collider(COLLIDER_TYPE);
 
 public:
 	const COLLIDER_TYPE colliderType;
@@ -18,5 +21,5 @@ public:
 
 CB_END_NAMESPACE
 
-#include "collider/plane_collider.hpp"
-//#include "collider/sphere_collider.hpp"
+//#include "collider/plane_collider.hpp"
+#include "collider/sphere_collider.hpp"

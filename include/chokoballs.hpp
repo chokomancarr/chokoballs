@@ -7,7 +7,7 @@ CB_BEGIN_NAMESPACE
 class ChokoBalls {
 	static BACKEND_TYPE backendType;
 
-	static pBackend_Base backend;
+	static Backend_Base backend;
 
 public:
 	/* Selects the compute backend.
@@ -27,7 +27,7 @@ public:
      */
     static void Finalize();
 
-	friend class World;
+	friend class _World;
 };
 
 CB_END_NAMESPACE

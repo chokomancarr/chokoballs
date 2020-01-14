@@ -4,14 +4,14 @@
 
 CB_BEGIN_NAMESPACE
 
-class Backend_Base {
+class _Backend_Base {
 public:
-	virtual ~Backend_Base() = default;
+	virtual ~_Backend_Base() = default;
 
 	/* Dispatch the compute thread
 	 * based on the world contents
 	 */
-	virtual CB_STATUS BeginUpdate(World* const) = 0;
+	virtual CB_STATUS BeginUpdate(const World*) = 0;
 
 	/* Finishes the compute thread and
 	 * update the world contents

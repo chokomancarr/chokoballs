@@ -3,9 +3,12 @@
 
 CB_BEGIN_NAMESPACE
 
-class Object_Rigidbody : public Object {
+/* Object with mass
+ * Can be spawned as freeform mass
+ */
+class _Object_Rigidbody : public _Object {
 public:
-	Object_Rigidbody(OBJECT_TYPE t = OBJECT_TYPE_NONE);
+	_Object_Rigidbody(OBJECT_TYPE t = OBJECT_TYPE_NONE);
 
 	/* mass
 	 */
@@ -29,6 +32,10 @@ public:
 	/* rotational velocity
 	 */
 	glm::vec3 rotVelocity;
+
+	glm::vec3 force;
+
+	glm::vec3 torque;
 };
 
 CB_END_NAMESPACE

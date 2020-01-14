@@ -6,8 +6,8 @@
 CB_BEGIN_NAMESPACE
 
 class _Backend_CPU : public _Backend_Base {
-//	std::vector<pObject> objects;
-//	BVHObject tree;
+	std::vector<_Object_Rigidbody*> bodies;
+	//	BVHObject tree;
 
 	std::thread computeThread;
 
@@ -16,9 +16,9 @@ class _Backend_CPU : public _Backend_Base {
 public:
 	_Backend_CPU();
 
-	CB_STATUS BeginUpdate(const World*) override;
+	CB_STATUS BeginUpdate(_World*) override;
 
-	CB_STATUS FinishUpdate(World&) override;
+	CB_STATUS FinishUpdate(_World*) override;
 };
 
 CB_END_NAMESPACE

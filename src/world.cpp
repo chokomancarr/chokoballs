@@ -21,11 +21,14 @@ void _World::RemoveObject(const Object& o) {
 }
 
 CB_STATUS _World::BeginUpdate() {
-	return ChokoBalls::backend->BeginUpdate(this);
+	auto res = ChokoBalls::backend->BeginUpdate(this);
+	//ensure lock here?
+	return res;
 }
 
 CB_STATUS _World::FinishUpdate() {
-	return ChokoBalls::backend->FinishUpdate(*this);
+	std::lock_guard<std::mutex> lock(update_mutex);
+	return ChokoBalls::backend->FinishUpdate(this);
 }
 
 CB_END_NAMESPACE

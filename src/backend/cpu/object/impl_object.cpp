@@ -1,4 +1,4 @@
-#include "src/backend.hpp"
+#include "chokoballs_internal.hpp"
 
 CB_BEGIN_NAMESPACE
 
@@ -9,6 +9,6 @@ void Impl_Object::ApplyForces(
     const auto dt = w->deltaTime * w->timeScale;
     const auto& V = o->velocity += A * dt;
     o->position += V * dt + A * dt * dt;
-};
+}
 
 CB_END_NAMESPACE

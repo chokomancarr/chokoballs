@@ -44,13 +44,7 @@ T* Ref<T>::operator ->() const {
     if (!_object) {
 		auto btp = std::string(std::strstr(typeid(*this).name(), "::_") + 3);
 		btp.pop_back();
-        Debug::Error("Object Reference", "Cannot dereference " + btp + ": reference is empty!");
-        return nullptr;
-    }
-    else if (_object->_deleted) {
-		auto btp = std::string(std::strstr(typeid(*this).name(), "::_") + 3);
-		btp.pop_back();
-        Debug::Error("Object Reference", "Cannot dereference " + btp + ": object is deleted!");
+        std::cerr << "Cannot dereference " + btp + ": reference is empty!" << std::endl;
         return nullptr;
     }
     return _object.get();
@@ -58,7 +52,7 @@ T* Ref<T>::operator ->() const {
 
 template <class T>
 bool Ref<T>::operator !() const {
-    return !_object || _object->_deleted;
+    return !_object;
 }
 
 template <class T>
@@ -69,6 +63,11 @@ bool Ref<T>::operator ==(const Ref<T>& rhs) const {
 template <class T>
 bool Ref<T>::operator !=(const Ref<T>& rhs) const {
     return this->_object != rhs._object;
+}
+
+template <class T>
+T* Ref<T>::data() const {
+	return _object.get();
 }
 
 CB_END_NAMESPACE

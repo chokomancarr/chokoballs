@@ -1,7 +1,3 @@
-set(DIR src/object/collider)
-
-set(SOURCES
-	${SOURCES}
-	${DIR}/plane_collider.cpp
-	PARENT_SCOPE
+target_sources(ChokoBalls PRIVATE
+	${CMAKE_CURRENT_SOURCE_DIR}/sphere_collider.cpp
 )

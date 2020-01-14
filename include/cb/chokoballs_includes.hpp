@@ -43,6 +43,6 @@ CB_END_NAMESPACE
 
 #include "object.hpp"
 
-#include "hierarchy/bvh/bvh_builder.hpp"
+//#include "hierarchy/bvh/bvh_builder.hpp"
 
 #include "world.hpp"

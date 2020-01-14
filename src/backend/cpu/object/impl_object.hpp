@@ -1,10 +1,10 @@
 #pragma once
-#include "src/backend/cpu/backend_cpu.hpp"
+#include "chokoballs_internal.hpp"
 
 CB_BEGIN_NAMESPACE
 
 namespace Impl_Object {
-    void ApplyForces(const _Object_Rigidbody*);
+    void ApplyForces(_Object_Rigidbody*, _World* w);
 };
 
 CB_END_NAMESPACE

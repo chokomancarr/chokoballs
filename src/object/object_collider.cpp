@@ -2,6 +2,6 @@
 
 CB_BEGIN_NAMESPACE
 
-Object_Collider::Object_Collider(COLLIDER_TYPE c) : colliderType(c) {}
+_Object_Collider::_Object_Collider(COLLIDER_TYPE c) : _Object_Rigidbody(OBJECT_TYPE_COLLIDER), colliderType(c) {}
 
 CB_END_NAMESPACE

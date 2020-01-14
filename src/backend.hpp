@@ -11,12 +11,12 @@ public:
 	/* Dispatch the compute thread
 	 * based on the world contents
 	 */
-	virtual CB_STATUS BeginUpdate(const World*) = 0;
+	virtual CB_STATUS BeginUpdate(_World*) = 0;
 
 	/* Finishes the compute thread and
 	 * update the world contents
 	 */
-	virtual CB_STATUS FinishUpdate(World&) = 0;
+	virtual CB_STATUS FinishUpdate(_World*) = 0;
 };
 
 CB_END_NAMESPACE

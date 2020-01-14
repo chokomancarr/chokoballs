@@ -1,7 +1,5 @@
-#include "chokoballs.hpp"
+#include "chokoballs_internal.hpp"
 
 CB_BEGIN_NAMESPACE
-
-Object_Collider_Plane::Object_Collider_Plane() : Object_Collider(COLLIDER_TYPE::PLANE) {}
 
 CB_END_NAMESPACE

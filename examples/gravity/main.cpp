@@ -53,6 +53,14 @@ int main() {
     CE::ChokoLait::Init(500, 500);
 
     cube_display = CE::ChokoLait::scene->AddNewObject();
+	auto& rend = cube_display->AddComponent<CE::MeshRenderer>();
+	rend->mesh(CE::ProceduralMesh::Cube(CE::Vec3(1.0f)));
+	auto tex = CE::Texture::New(CE::IO::path() + "../../resources/test.jpg");
+	auto shad = CE::Shader::New(CE::IO::path() + "../../resources/vert.txt", CE::IO::path() + "../../resources/frag.txt");
+	shad->AddUniform("tex", CE::ShaderVariableType::Texture);
+	auto mat = CE::Material::New(shad);
+	mat->SetUniform("tex", tex);
+	rend->materials({ mat });
 
     apply();
 
@@ -63,13 +71,13 @@ int main() {
             }
             else if (CE::Input::KeyDown(CE::InputKey::Space)) {
                 play = !play;
-                world->FinishUpdate();
+                //world->FinishUpdate();
             }
             else {
                 if (play) {
-                    world->FinishUpdate();
+                    //world->FinishUpdate();
                     apply();
-                    world->BeginUpdate();
+                    //world->BeginUpdate();
                 }
             }
         });

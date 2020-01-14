@@ -40,6 +40,8 @@ public:
 
 	bool operator !=(const Ref<T>& rhs) const;
 
+	T* data() const;
+
 	/* Constructs a reference from an allocated pointer
 	 * WARNING: risk of dangling pointer
 	 * You should not use this function

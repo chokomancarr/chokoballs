@@ -21,6 +21,8 @@ public:
 
 	float timeScale;
 
+	float gravity;
+
     std::vector<Object> objects;
     
     /* Removes all contents in this world

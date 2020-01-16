@@ -2,7 +2,7 @@
 
 CB_BEGIN_NAMESPACE
 
-_World::_World() : deltaTime(1.f / 20), timeScale(1), objects() {}
+_World::_World() : deltaTime(1.f / 20), timeScale(1), gravity(-9.81f), objects() {}
 
 void _World::Clear() {
 	objects.clear();

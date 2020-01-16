@@ -11,7 +11,7 @@ class _Backend_CPU : public _Backend_Base {
 
 	std::thread computeThread;
 
-	static void Dispatch(_Backend_CPU*);
+	static void Dispatch(_Backend_CPU*, _World*);
 
 public:
 	_Backend_CPU();

@@ -24,14 +24,18 @@ class ChokoBalls;
 
 #define CB_OBJECT(nm)\
     class _ ## nm;\
-    typedef Ref<_ ## nm> nm;
+    typedef Ref<_ ## nm> nm;\
+    typedef _ ## nm* p ## nm;
 
 CB_OBJECT(Backend_Base)
 
 CB_OBJECT(Object)
 CB_OBJECT(Object_Rigidbody)
 CB_OBJECT(Object_Collider)
+CB_OBJECT(Object_Collider_Cube)
+CB_OBJECT(Object_Collider_InfPlane)
 CB_OBJECT(Object_Collider_Plane)
+CB_OBJECT(Object_Collider_Sphere)
 
 CB_OBJECT(World)
 
@@ -40,6 +44,7 @@ CB_OBJECT(World)
 CB_END_NAMESPACE
 
 #include "types/bbox.hpp"
+#include "types/ray.hpp"
 
 #include "object.hpp"
 

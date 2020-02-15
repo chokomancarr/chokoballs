@@ -3,3 +3,5 @@ target_sources(ChokoBalls PRIVATE
 )
 
 add_subdirectory(object)
+add_subdirectory(collider)
+add_subdirectory(collision)

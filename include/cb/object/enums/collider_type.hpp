@@ -4,7 +4,9 @@
 CB_BEGIN_NAMESPACE
 
 enum class COLLIDER_TYPE {
-    PLANE,
+	BOX,
+	PLANE,
+	INFPLANE,
 	SPHERE,
 	MESH
 };

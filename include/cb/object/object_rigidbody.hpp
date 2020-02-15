@@ -10,11 +10,20 @@ class _Object_Rigidbody : public _Object {
 public:
 	_Object_Rigidbody(OBJECT_TYPE t = OBJECT_TYPE_NONE);
 
+	bool hasRigidbody;
+
 	/* mass
 	 */
-	float mass;
+	float inverseMass;
+	/* moment
+	 */
+	float inverseMoment;
+	/* collision bounce factor
+	 */
+	float bounce;
 
 	/* world position
+	 * this is the center of mass
 	 */
 	glm::vec3 position;
 	/* world rotation
@@ -31,11 +40,11 @@ public:
 	
 	/* rotational velocity
 	 */
-	glm::vec3 rotVelocity;
+	glm::quat rotVelocity;
 
-	glm::vec3 force;
+	glm::vec3 accel;
 
-	glm::vec3 torque;
+	glm::quat torque;
 };
 
 CB_END_NAMESPACE

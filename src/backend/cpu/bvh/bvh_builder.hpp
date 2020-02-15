@@ -1,10 +1,10 @@
 #pragma once
 #include "chokoballs_internal.hpp"
-#include "bvh_element.hpp"
+#include "bvh_node.hpp"
 
 CB_BEGIN_NAMESPACE
 
-typedef std::vector<BVHElement> BVHObject;
+typedef std::vector<BVHNode> BVHObject;
 
 /* Bounding volume hierarchy builder
  */

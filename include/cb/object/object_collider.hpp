@@ -21,5 +21,7 @@ public:
 
 CB_END_NAMESPACE
 
+#include "collider/box_collider.hpp"
+#include "collider/infplane_collider.hpp"
 //#include "collider/plane_collider.hpp"
 #include "collider/sphere_collider.hpp"

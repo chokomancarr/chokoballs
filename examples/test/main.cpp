@@ -7,61 +7,66 @@ namespace CE = ChokoEngine;
 CB::World world;
 CB::Object_Rigidbody cube;
 
-CE::SceneObject cube_display;
+CE::SceneObject ball_display;
 
 bool play = true;
 
 void reset() {
-    cube->position = glm::vec3();
-    cube->rotation = glm::identity<glm::quat>();
-    cube->velocity = glm::vec3(
-        CE::Random::Value() * 2 - 1,
-        0,//CE::Random::Value() * 3,
-        CE::Random::Value() * 2 - 1
-    ) * 0.1f;
-    cube->rotVelocity = glm::identity<glm::quat>();/* CE::Quat::FromEuler(CE::Vec3(
-        0,//CE::Random::Value() * 2 - 1,
-        0,//CE::Random::Value() * 2 - 1,
-        1//CE::Random::Value() * 2 - 1
-    ).normalized() * 180.f);*/
+	cube->position = glm::vec3(-3, 2, 1);
+	cube->rotation = glm::identity<glm::quat>();
+	cube->velocity = glm::vec3(
+		CE::Random::Value() * 2 - 1,
+		0,//CE::Random::Value() * 3,
+		CE::Random::Value() * 2 - 1
+	) * 0.2f;
+	cube->rotVelocity = glm::identity<glm::quat>();/* CE::Quat::FromEuler(CE::Vec3(
+		0,//CE::Random::Value() * 2 - 1,
+		0,//CE::Random::Value() * 2 - 1,
+		1//CE::Random::Value() * 2 - 1
+	).normalized() * 180.f);*/
 }
 
 void apply() {
-    const auto& tr = cube_display->transform();
-    tr->localPosition(CE::Vec3(
-        cube->position.x,
-        cube->position.y,
-        cube->position.z
-    ));
-    tr->localRotation(CE::Quat(
-        cube->rotation.w,
-        cube->rotation.x,
-        cube->rotation.y,
-        cube->rotation.z
-    ));
+	const auto& tr = ball_display->transform();
+	tr->localPosition(CE::Vec3(
+		cube->position.x,
+		cube->position.y,
+		cube->position.z
+	));
+	tr->localRotation(CE::Quat(
+		cube->rotation.w,
+		cube->rotation.x,
+		cube->rotation.y,
+		cube->rotation.z
+	));
 }
 
 int main() {
-    CB::ChokoBalls::SetBackend(CB::BACKEND_TYPE::CPU);
-    CB::ChokoBalls::Init();
+	CB::ChokoBalls::SetBackend(CB::BACKEND_TYPE::CPU);
+	CB::ChokoBalls::Init();
 
-    world = CB::World::New();
-    //world->timeScale = 0.1f;
+	CE::ChokoLait::Init(500, 500);
 
-    cube = CB::Object_Collider_Sphere::New(1.f);
-    world->AddObject(cube);
+	world = CB::World::New();
+	//world->timeScale = 0.1f;
 
-    auto ball = CB::Object_Collider_Sphere::New(1.f);
-    ball->position = glm::vec3(0, -5, 0);
-    ball->dynamic = false;
-    world->AddObject(ball);
+	cube = CB::Object_Collider_Sphere::New(1.f);
+	world->AddObject(cube);
 
-    reset();
+	const auto mapmesh = CE::MeshLoader::LoadObj(CE::IO::path() + "../../resources/map1.obj");
 
-    CE::ChokoLait::Init(500, 500);
+	auto map = CB::Object_Collider_Mesh::New();
+	map->vertices.resize(mapmesh->vertexCount());
+	std::memcpy(map->vertices.data(), mapmesh->positions().data(), mapmesh->vertexCount() * sizeof(glm::vec3));
+	map->triangles.resize(mapmesh->triangleCount());
+	std::memcpy(map->triangles.data(), mapmesh->triangles().data(), mapmesh->triangleCount() * sizeof(glm::ivec3));
+	map->dynamic = false;
+	world->AddObject(map);
 
-    cube_display = CE::ChokoLait::scene->AddNewObject();
-	auto rend = cube_display->AddComponent<CE::MeshRenderer>();
+	reset();
+
+	ball_display = CE::ChokoLait::scene->AddNewObject();
+	auto rend = ball_display->AddComponent<CE::MeshRenderer>();
 	auto mesh = CE::MeshLoader::LoadObj(CE::IO::path() + "../../resources/ball.obj");
 	rend->mesh(mesh);
 	auto tex = CE::Texture::New(CE::IO::path() + "../../resources/test.jpg");
@@ -75,39 +80,38 @@ int main() {
 	mat->SetUniform("tex", tex);
 	rend->materials({ mat });
 
-    auto ball_display = CE::ChokoLait::scene->AddNewObject();
-    ball_display->transform()->localPosition(CE::Vec3(0, -5, 0));
-	rend = ball_display->AddComponent<CE::MeshRenderer>();
-	rend->mesh(mesh);
+	auto map_display = CE::ChokoLait::scene->AddNewObject();
+	rend = map_display->AddComponent<CE::MeshRenderer>();
+	rend->mesh(mapmesh);
 	rend->materials({ mat });
 
 	auto camera = CE::ChokoLait::scene->AddNewObject();
 	camera->AddComponent<CE::Camera>();
 	camera->transform()->localPosition(CE::Vec3(0, 0, -15));
 
-    apply();
+	apply();
 
-    while (CE::ChokoLait::alive()) {
-        CE::ChokoLait::Update([]() {
-            world->FinishUpdate();
-            world->deltaTime = CE::Time::delta();
-            if (CE::Input::KeyDown(CE::InputKey::Enter)) {
-                reset();
-                apply();
-            }
-            else if (CE::Input::KeyDown(CE::InputKey::Space)) {
-                play = !play;
-            }
-            else {
-                if (play) {
-                    apply();
-                    world->BeginUpdate();
-                }
-            }
-        });
-        CE::ChokoLait::Paint(0, []() {
-            cube->bounce = CE::UI::I::Slider(CE::Rect(10, 10, 150, 20), CE::Vec2(0, 1), cube->bounce, CE::Color::green());
-        });
-        glfwSetWindowTitle(glfwGetCurrentContext(), std::to_string(int(1 / CE::Time::delta())).c_str());
-    }
+	while (CE::ChokoLait::alive()) {
+		CE::ChokoLait::Update([]() {
+			world->FinishUpdate();
+			world->deltaTime = CE::Time::delta();
+			if (CE::Input::KeyDown(CE::InputKey::Enter)) {
+				reset();
+				apply();
+			}
+			else if (CE::Input::KeyDown(CE::InputKey::Space)) {
+				play = !play;
+			}
+			else {
+				if (play) {
+					apply();
+					world->BeginUpdate();
+				}
+			}
+		});
+		CE::ChokoLait::Paint(0, []() {
+			cube->bounce = CE::UI::I::Slider(CE::Rect(10, 10, 150, 20), CE::Vec2(0, 1), cube->bounce, CE::Color::green());
+		});
+		glfwSetWindowTitle(glfwGetCurrentContext(), std::to_string(int(1 / CE::Time::delta())).c_str());
+	}
 }

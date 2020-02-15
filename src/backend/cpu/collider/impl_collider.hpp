@@ -18,6 +18,7 @@ namespace Impl_Collider {
 
     defcol(Sphere, Sphere)
     defcol(Sphere, InfPlane)
+    defcol(Sphere, Mesh)
 
 #undef defcol
 #define Impl_Collider_IMPL(a, b) void Impl_Collider::colsig(a, b)

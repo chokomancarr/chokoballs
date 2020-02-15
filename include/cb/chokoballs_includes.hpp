@@ -34,6 +34,7 @@ CB_OBJECT(Object_Rigidbody)
 CB_OBJECT(Object_Collider)
 CB_OBJECT(Object_Collider_Cube)
 CB_OBJECT(Object_Collider_InfPlane)
+CB_OBJECT(Object_Collider_Mesh)
 CB_OBJECT(Object_Collider_Plane)
 CB_OBJECT(Object_Collider_Sphere)
 

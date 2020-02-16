@@ -12,7 +12,7 @@ CE::SceneObject ball_display;
 bool play = true;
 
 void reset() {
-	cube->position = glm::vec3(-3, 2, 1);
+	cube->position = glm::vec3(-3, 0, 1);
 	cube->rotation = glm::identity<glm::quat>();
 	cube->velocity = glm::vec3(
 		CE::Random::Value() * 2 - 1,
@@ -72,7 +72,7 @@ int main() {
 	auto tex = CE::Texture::New(CE::IO::path() + "../../resources/test.jpg");
 	auto shad = CE::Shader::New(
 		CE::IO::ReadFile(CE::IO::path() + "../../resources/vert.txt"),
-		CE::IO::ReadFile(CE::IO::path() + "../../resources/frag.txt"));
+		CE::IO::ReadFile(CE::IO::path() + "../../resources/fragd.txt"));
 	shad->RegisterStandardUniforms();
 	shad->AddUniform("tex", CE::ShaderVariableType::Texture);
 	auto mat = CE::Material::New();
@@ -87,7 +87,16 @@ int main() {
 
 	auto camera = CE::ChokoLait::scene->AddNewObject();
 	camera->AddComponent<CE::Camera>();
-	camera->transform()->localPosition(CE::Vec3(0, 0, -15));
+	camera->transform()->localPosition(CE::Vec3(0, 7, -15));
+	camera->transform()->localRotationEuler(CE::Vec3(30, 0, 0));
+
+	auto light = CE::ChokoLait::scene->AddNewObject();
+	light->transform()->localPosition(CE::Vec3(10, 10, 10));
+	auto lc = light->AddComponent<CE::Light>(CE::LightType::Point);
+	lc->strength(10.f);
+	lc->shadow(true);
+	lc->shadowSamples(1);
+	lc->distance(30.f);
 
 	apply();
 

@@ -1,0 +1,26 @@
+
+in vec3 v2f_normal;
+in vec2 v2f_uv;
+
+uniform int _object_id;
+
+uniform sampler2D tex;
+
+layout (location=0) out vec4 outColor; //rgb?
+layout (location=1) out vec4 outNormal; //xyz
+layout (location=2) out vec4 outSpec; //metal rough occlu flags2
+layout (location=3) out vec4 outEmi; //????
+
+layout (location=4) out ivec4 _out_attrs; //????
+
+void main() {
+    outColor = texture(tex, v2f_uv);
+    outNormal.xyz = normalize(v2f_normal);
+    outSpec.r = 0;
+    outSpec.g = 0.5;
+    outSpec.b = 1;
+    outSpec.a = 0;
+    outEmi = outColor * 0.5;
+    
+    _out_attrs.r = _object_id;
+}

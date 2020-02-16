@@ -8,7 +8,9 @@ enum class COLLIDER_TYPE {
 	PLANE,
 	INFPLANE,
 	SPHERE,
-	MESH
+	MESH,
+
+	_COUNT
 };
 
 CB_END_NAMESPACE

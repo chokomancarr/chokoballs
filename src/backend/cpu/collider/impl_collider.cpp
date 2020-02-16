@@ -111,24 +111,35 @@ Impl_Collider_IMPL(Sphere, Mesh) {
 	}
 }
 
+namespace {
+	typedef std::array<Impl_Collider::colfn, ((int)COLLIDER_TYPE::_COUNT)*((int)COLLIDER_TYPE::_COUNT)> collut;
+
+	#define lutid(A, B) ((int)(A) << ((int)COLLIDER_TYPE::_COUNT)) + (int)(B)
+	#define regcol(A, a)\
+		res[lutid(COLLIDER_TYPE::A, COLLIDER_TYPE::A)] = Impl_Collider::Collide ## a ## a
+	#define regcol2(A, B, a, b)\
+		res[lutid(COLLIDER_TYPE::A, COLLIDER_TYPE::B)] = Impl_Collider::Collide ## a ## b;\
+		res[lutid(COLLIDER_TYPE::B, COLLIDER_TYPE::A)] = Impl_Collider::Collide ## a ## b ## i
+	
+	collut _getlut() {
+		collut res = {};
+		regcol(SPHERE, Sphere);
+		regcol2(SPHERE, INFPLANE, Sphere, InfPlane);
+		regcol2(SPHERE, MESH, Sphere, Mesh);
+		return res;
+	}
+}
+
 void Impl_Collider::findContacts(
 		pObject_Collider objs[2],
 		_Backend_CPU* bk,
 		pWorld world) {
-	#define hashof(A, B) ((int)(A) << 16) + (int)(B)
-	#define regcol(A, B, a, b)\
-		{ hashof(COLLIDER_TYPE::A, COLLIDER_TYPE::B), Collide ## a ## b }
-	#define regcol2(A, B, a, b)\
-		regcol(A, B, a, b),\
-		{ hashof(COLLIDER_TYPE::B, COLLIDER_TYPE::A), Collide ## a ## b ## i }
-	static const std::unordered_map<int, colfn> fns = {
-		regcol(SPHERE, SPHERE, Sphere, Sphere),
-		regcol2(SPHERE, INFPLANE, Sphere, InfPlane),
-		regcol2(SPHERE, MESH, Sphere, Mesh)
-	};
+	
+	static const auto lut = _getlut();
 
-	fns.at(hashof(objs[0]->colliderType, objs[1]->colliderType))
-		(objs, bk->contacts.data(), bk->numContacts);
+	const auto fn = lut[lutid(objs[0]->colliderType, objs[1]->colliderType)];
+	assert(fn);
+	fn(objs, bk->contacts.data(), bk->numContacts);
 }
 
 CB_END_NAMESPACE

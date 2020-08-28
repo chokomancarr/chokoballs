@@ -5,9 +5,9 @@ CB_BEGIN_NAMESPACE
 
 /* infinite half-space pointing at (0, 0, 1)
  */
-class _Object_Collider_InfPlane : public _Object_Collider {
+class _Collider_InfPlane : public _Collider {
 public:
-	_Object_Collider_InfPlane();
+	_Collider_InfPlane();
 };
 
 CB_END_NAMESPACE

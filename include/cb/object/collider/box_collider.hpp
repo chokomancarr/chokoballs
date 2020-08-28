@@ -3,9 +3,9 @@
 
 CB_BEGIN_NAMESPACE
 
-class _Object_Collider_Box : public _Object_Collider {
+class _Collider_Box : public _Collider {
 public:
-    _Object_Collider_Box(const glm::vec3& r);
+	_Collider_Box(const glm::vec3& r);
 
 	glm::vec3 radius;
 };

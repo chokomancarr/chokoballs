@@ -3,9 +3,9 @@
 
 CB_BEGIN_NAMESPACE
 
-class _Object_Collider_Sphere : public _Object_Collider {
+class _Collider_Sphere : public _Collider {
 public:
-    _Object_Collider_Sphere(float r);
+    _Collider_Sphere(float r);
 
 	float radius;
 };

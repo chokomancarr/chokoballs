@@ -1,6 +1,6 @@
 #pragma once
 #include "chokoballs.hpp"
-#include "enums/object_type.hpp"
+#include "object/rigidbody.hpp"
 
 CB_BEGIN_NAMESPACE
 
@@ -8,12 +8,14 @@ CB_BEGIN_NAMESPACE
  * 
  */
 class _Object {
-protected:
-	_Object(OBJECT_TYPE t) : type(t) {}
-
 public:
-	
-	const OBJECT_TYPE type;
+	glm::vec3 position;
+	glm::quat rotation;
+	glm::vec3 scale;
+
+	bool has_rigidbody = false;
+	Rigidbody rigidbody = {};
+	Collider collider = nullptr;
 
 	/* Is this object affected by physics updates?
 	 */
@@ -30,5 +32,4 @@ public:
 
 CB_END_NAMESPACE
 
-#include "object/object_rigidbody.hpp"
-#include "object/object_collider.hpp"
+#include "object/collider.hpp"

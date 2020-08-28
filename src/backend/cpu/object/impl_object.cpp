@@ -3,11 +3,11 @@
 CB_BEGIN_NAMESPACE
 
 void Impl_Object::ApplyForces(
-        _Object_Rigidbody* o,
+        pObject o,
         _World* w) {
-    const auto& A = o->accel;
+    const auto& A = o->rigidbody.accel;
     const auto dt = w->deltaTime * w->timeScale;
-    const auto& V = o->velocity += A * dt;
+    const auto& V = o->rigidbody.velocity += A * dt;
     o->position += V * dt + A * dt * dt;
     /*
     const auto& T = o->torque;
@@ -21,11 +21,11 @@ void Impl_Object::ApplyForces(
 }
 
 void Impl_Object::AddForceAt(
-        _Object_Rigidbody* o,
+        pObject o,
         float f,
         const glm::vec3& p,
         const glm::vec3& d) {
-    o->accel += d * f * o->inverseMass;
+    o->rigidbody.accel += d * f * o->rigidbody.inverseMass;
     /*
     const auto rv = p - o->position;
     const auto r = glm::length(rv);
@@ -39,12 +39,12 @@ void Impl_Object::AddForceAt(
 }
 
 void Impl_Object::AddImpulseAt(
-        _Object_Rigidbody* o,
+        pObject o,
         float a,
         const glm::vec3& p,
         const glm::vec3& d) {
     //o->accel += d * a;
-    o->velocity += d * a;
+    o->rigidbody.velocity += d * a;
     /*
     const auto rv = p - o->position;
     const auto r = glm::length(rv);
@@ -58,7 +58,7 @@ void Impl_Object::AddImpulseAt(
 }
 
 void Impl_Object::AddOffsetAt(
-        _Object_Rigidbody* o,
+        pObject o,
         float s,
         const glm::vec3& p,
         const glm::vec3& d,

@@ -2,7 +2,7 @@
 
 CB_BEGIN_NAMESPACE
 
-_Object_Collider_Sphere::_Object_Collider_Sphere(float r)
-	: _Object_Collider(COLLIDER_TYPE::SPHERE), radius(r) {}
+_Collider_Sphere::_Collider_Sphere(float r)
+	: _Collider(COLLIDER_TYPE::SPHERE), radius(r) {}
 
 CB_END_NAMESPACE

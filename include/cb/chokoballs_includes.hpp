@@ -29,16 +29,16 @@ class ChokoBalls;
 
 CB_OBJECT(Backend_Base)
 
-CB_OBJECT(Object)
-CB_OBJECT(Object_Rigidbody)
-CB_OBJECT(Object_Collider)
-CB_OBJECT(Object_Collider_Cube)
-CB_OBJECT(Object_Collider_InfPlane)
-CB_OBJECT(Object_Collider_Mesh)
-CB_OBJECT(Object_Collider_Plane)
-CB_OBJECT(Object_Collider_Sphere)
-
 CB_OBJECT(World)
+
+CB_OBJECT(Object)
+class Rigidbody;
+CB_OBJECT(Collider)
+CB_OBJECT(Collider_Cube)
+CB_OBJECT(Collider_InfPlane)
+CB_OBJECT(Collider_Mesh)
+CB_OBJECT(Collider_Plane)
+CB_OBJECT(Collider_Sphere)
 
 #undef CB_OBJECT
 

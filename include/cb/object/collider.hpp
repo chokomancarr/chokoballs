@@ -7,11 +7,13 @@ CB_BEGIN_NAMESPACE
 /* Object with mass and volume
  * Must be spawned as specific collider instance
  */
-class _Object_Collider : public _Object_Rigidbody {
+class _Collider {
 protected:
-	_Object_Collider(COLLIDER_TYPE);
+	_Collider(COLLIDER_TYPE);
 
 public:
+	virtual ~_Collider() = default;
+
 	const COLLIDER_TYPE colliderType;
 
 	/* Axis-aligned bounds of this object.

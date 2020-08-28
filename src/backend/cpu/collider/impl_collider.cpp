@@ -8,8 +8,8 @@ CB_BEGIN_NAMESPACE
 	c.normal = n;\
 	c.distance = d;\
 	c.pos = p;\
-	c.objs[0] = c1;\
-	c.objs[1] = c2;\
+	c.objs[0] = o1;\
+	c.objs[1] = o2;\
 }
 
 namespace {
@@ -57,8 +57,8 @@ namespace {
 	}
 }
 
-Impl_Collider_IMPL(Sphere, Sphere) {
-	const auto dv = c2->position - c1->position;
+Impl_Collider_IMPL(Sphere, Sphere)
+	const auto dv = o2->position - o1->position;
 	auto d = glm::length2(dv);
 	const auto rr = c1->radius + c2->radius;
 	if (d > rr*rr) {
@@ -69,15 +69,15 @@ Impl_Collider_IMPL(Sphere, Sphere) {
 		addcontact(
 			dv / d,
 			(rr - d) * 0.5f,
-			c1->position + (c1->radius - c.distance) * c.normal
+			o1->position + (c1->radius - c.distance) * c.normal
 		);
 	}
-}
+End_Impl
 
-Impl_Collider_IMPL(Sphere, InfPlane) {
-	const auto& ps = c1->position;
-	const auto& pp = c2->position;
-	const auto pn = c2->rotation * glm::vec3(0, 0, 1);
+Impl_Collider_IMPL(Sphere, InfPlane)
+	const auto& ps = o1->position;
+	const auto& pp = o2->position;
+	const auto pn = o2->rotation * glm::vec3(0, 0, 1);
 	const auto off = glm::dot(pp, pn);
 	const auto v = glm::dot(ps, pn) - off - c1->radius;
 	if (v > 0) {
@@ -87,10 +87,10 @@ Impl_Collider_IMPL(Sphere, InfPlane) {
 			ps - pn * (c1->radius - c.distance)
 		);
 	}
-}
+End_Impl
 
-Impl_Collider_IMPL(Sphere, Mesh) {
-	const auto& ps = c1->position;
+Impl_Collider_IMPL(Sphere, Mesh)
+	const auto& ps = o1->position;
 	
 	const auto vs = c2->vertices.data();
 
@@ -109,7 +109,7 @@ Impl_Collider_IMPL(Sphere, Mesh) {
 	if (mind > -1) {
 		addcontact(minn, mind, minp);
 	}
-}
+End_Impl
 
 namespace {
 	typedef std::array<Impl_Collider::colfn, ((int)COLLIDER_TYPE::_COUNT)*((int)COLLIDER_TYPE::_COUNT)> collut;
@@ -125,19 +125,19 @@ namespace {
 		collut res = {};
 		regcol(SPHERE, Sphere);
 		regcol2(SPHERE, INFPLANE, Sphere, InfPlane);
-		regcol2(SPHERE, MESH, Sphere, Mesh);
+		//regcol2(SPHERE, MESH, Sphere, Mesh);
 		return res;
 	}
 }
 
 void Impl_Collider::findContacts(
-		pObject_Collider objs[2],
+		pObject objs[2],
 		_Backend_CPU* bk,
 		pWorld world) {
 	
 	static const auto lut = _getlut();
 
-	const auto fn = lut[lutid(objs[0]->colliderType, objs[1]->colliderType)];
+	const auto fn = lut[lutid(objs[0]->collider->colliderType, objs[1]->collider->colliderType)];
 	assert(fn);
 	fn(objs, bk->contacts.data(), bk->numContacts);
 }

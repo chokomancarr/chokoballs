@@ -3,9 +3,9 @@
 
 CB_BEGIN_NAMESPACE
 
-class _Object_Collider_Mesh : public _Object_Collider {
+class _Collider_Mesh : public _Collider {
 public:
-    _Object_Collider_Mesh();
+    _Collider_Mesh();
 
     std::vector<glm::vec3> vertices;
     std::vector<glm::ivec3> triangles;

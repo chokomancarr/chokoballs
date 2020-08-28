@@ -2,7 +2,7 @@
 
 CB_BEGIN_NAMESPACE
 
-_Object_Collider_Mesh::_Object_Collider_Mesh()
-    : _Object_Collider(COLLIDER_TYPE::MESH), vertices({}), triangles({}) {}
+_Collider_Mesh::_Collider_Mesh()
+    : _Collider(COLLIDER_TYPE::MESH), vertices({}), triangles({}) {}
 
 CB_END_NAMESPACE

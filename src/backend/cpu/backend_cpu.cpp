@@ -9,7 +9,7 @@ namespace {
 	void updateforces(ARGS) {
 		for (auto& o : b->bodies) {
 			if (o->dynamic)
-				o->accel = glm::vec3(0, w->gravity, 0);
+				o->rigidbody.accel = glm::vec3(0, w->gravity, 0);
 		}
 	}
 
@@ -45,31 +45,35 @@ namespace {
 			auto& co1 = c.objs[0];
 			auto& co2 = c.objs[1];
 
-			const auto closingVel1 = glm::dot(c.normal, co1->velocity);
-			const auto closingVel2 = glm::dot(-c.normal, co2->velocity);
-			const auto closingVel = closingVel1 + closingVel2;
-			if (closingVel < 0) continue;
-
-			const auto im1 = co1->dynamic ? co1->inverseMass : 0;
-			const auto im2 = co2->dynamic ? co2->inverseMass : 0;
+			const auto im1 = (co1->has_rigidbody && co1->dynamic) ?
+				co1->rigidbody.inverseMass : 0;
+			const auto im2 = (co2->has_rigidbody && co2->dynamic) ?
+				co2->rigidbody.inverseMass : 0;
 			const auto im = im1 + im2;
 			if (im == 0) continue;
+
+			const auto closingVel1 = glm::dot(c.normal, 
+				im1 > 0 ? co1->rigidbody.velocity : glm::vec3(0.f));
+			const auto closingVel2 = glm::dot(-c.normal,
+				im2 > 0 ? co2->rigidbody.velocity : glm::vec3(0.f));
+			const auto closingVel = closingVel1 + closingVel2;
+			if (closingVel < 0) continue;
 
 			const auto dm1 = im1 / im;
 			const auto dm2 = im2 / im;
 
 			const auto bounce = std::max(
-				co1->dynamic ? co1->bounce : 0,
-				co2->dynamic ? co2->bounce : 0);
+				(co1->has_rigidbody && co1->dynamic) ? co1->rigidbody.bounce : 0,
+				(co2->has_rigidbody && co2->dynamic) ? co2->rigidbody.bounce : 0);
 
 			if (im1 > 0) {
 				Impl_Object::AddOffsetAt(c.objs[0], c.distance * dm1, c.pos, -c.normal, idt);
-				co1->velocity -= c.normal * closingVel1 - c.normal * bounce *
+				co1->rigidbody.velocity -= c.normal * closingVel1 - c.normal * bounce *
 					((dm2-dm1)*closingVel1 + 2*dm1*closingVel2);
 			}
 			if (im2 > 0) {
 				Impl_Object::AddOffsetAt(c.objs[1], c.distance * dm2, c.pos, c.normal, idt);
-				co2->velocity += c.normal * closingVel2 + c.normal * bounce *
+				co2->rigidbody.velocity += c.normal * closingVel2 + c.normal * bounce *
 					(2*dm1*closingVel1 + (dm1-dm2)*closingVel2);
 			}
 		}
@@ -91,8 +95,8 @@ CB_STATUS _Backend_CPU::BeginUpdate(_World* world) {
 	bodies.clear();
 	bodies.reserve(world->objects.size());
 	for (auto& o : world->objects) {
-		if (!!(o->type & OBJECT_TYPE_RIGIDBODY)) {
-			bodies.push_back((_Object_Rigidbody*)o.data());
+		if (o->has_rigidbody) {
+			bodies.push_back(o.data());
 		}
 	}
 	//tree = BVHBuilder::Generate(objects);

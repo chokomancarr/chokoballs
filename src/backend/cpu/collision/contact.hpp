@@ -4,7 +4,7 @@
 CB_BEGIN_NAMESPACE
 
 struct Contact {
-    pObject_Rigidbody objs[2];
+    pObject objs[2];
     glm::vec3 pos;
     glm::vec3 normal; //points to 2nd object
     float distance;

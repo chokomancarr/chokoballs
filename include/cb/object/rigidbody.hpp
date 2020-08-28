@@ -6,11 +6,9 @@ CB_BEGIN_NAMESPACE
 /* Object with mass
  * Can be spawned as freeform mass
  */
-class _Object_Rigidbody : public _Object {
+class Rigidbody {
 public:
-	_Object_Rigidbody(OBJECT_TYPE t = OBJECT_TYPE_NONE);
-
-	bool hasRigidbody;
+	Rigidbody();
 
 	/* mass
 	 */
@@ -25,14 +23,14 @@ public:
 	/* world position
 	 * this is the center of mass
 	 */
-	glm::vec3 position;
+	//glm::vec3 position;
 	/* world rotation
 	 */
-	glm::quat rotation;
+	//glm::quat rotation;
 	/* world scale
 	 * this value should not change during simulation
 	 */
-	glm::vec3 scale;
+	//glm::vec3 scale;
 
 	/* linear velocity
 	 */

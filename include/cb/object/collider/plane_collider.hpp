@@ -3,9 +3,9 @@
 
 CB_BEGIN_NAMESPACE
 
-class _Object_Collider_Plane : public _Object_Collider {
+class _Collider_Plane : public _Collider {
 public:
-	_Object_Collider_Plane();
+	_Collider_Plane();
 };
 
 CB_END_NAMESPACE

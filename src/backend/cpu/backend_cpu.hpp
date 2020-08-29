@@ -8,6 +8,8 @@ const int MAX_CONTACT_NUM = 1024;
 
 class _Backend_CPU : public _Backend_Base {
 public:
+	~_Backend_CPU();
+
 	std::vector<_Object*> bodies;
 
 	std::array<Contact, MAX_CONTACT_NUM> contacts;

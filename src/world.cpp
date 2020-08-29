@@ -27,7 +27,6 @@ CB_STATUS _World::BeginUpdate() {
 }
 
 CB_STATUS _World::FinishUpdate() {
-	std::lock_guard<std::mutex> lock(update_mutex);
 	return ChokoBalls::backend->FinishUpdate(this);
 }
 

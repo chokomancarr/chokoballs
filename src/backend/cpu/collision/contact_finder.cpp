@@ -4,6 +4,7 @@ CB_BEGIN_NAMESPACE
 
 void ContactFinder::Gen(_Backend_CPU* bk, pWorld w) {
     const auto sz = bk->bodies.size();
+	if (!sz) return;
     pObject bs[2];
     for (size_t a = 0; a < sz-1; a++) {
 		if (!bk->bodies[a]->collider) continue;

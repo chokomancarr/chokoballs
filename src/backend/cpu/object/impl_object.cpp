@@ -7,7 +7,7 @@ void Impl_Object::ApplyForces(
         _World* w) {
     const auto& A = o->rigidbody.accel;
     const auto dt = w->deltaTime * w->timeScale;
-    const auto& V = o->rigidbody.velocity += A * dt;
+    const auto& V = (o->rigidbody.velocity += A * dt);
     o->position += V * dt + A * dt * dt;
     /*
     const auto& T = o->torque;

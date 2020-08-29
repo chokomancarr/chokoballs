@@ -1,4 +1,5 @@
 #include "chokoballs_internal.hpp"
+#include <condition_variable>
 
 CB_BEGIN_NAMESPACE
 
@@ -6,10 +7,13 @@ CB_BEGIN_NAMESPACE
 #define vARGS b, w
 
 namespace {
+	std::condition_variable condvar;
+
 	void updateforces(ARGS) {
 		for (auto& o : b->bodies) {
-			if (o->dynamic)
+			if (o->dynamic) {
 				o->rigidbody.accel = glm::vec3(0, w->gravity, 0);
+			}
 		}
 	}
 
@@ -80,33 +84,48 @@ namespace {
 	}
 }
 
-void _Backend_CPU::Dispatch(ARGS) {
-	std::lock_guard<std::mutex> lock(update_mutex);
+_Backend_CPU::~_Backend_CPU() {
+	if (computeThread.joinable()) {
+		computeThread.join();
+	}
+}
 
-	updateforces(vARGS);
-	movebodies(vARGS);
-	findcontacts(vARGS);
-	resolvecontacts(vARGS);
+void _Backend_CPU::Dispatch(ARGS) {
+	while (1) {
+		std::unique_lock<std::mutex> lock(update_mutex);
+		condvar.wait(lock);
+
+		updateforces(vARGS);
+		movebodies(vARGS);
+		findcontacts(vARGS);
+		resolvecontacts(vARGS);
+	}
 }
 
 _Backend_CPU::_Backend_CPU() {}
 
 CB_STATUS _Backend_CPU::BeginUpdate(_World* world) {
-	bodies.clear();
-	bodies.reserve(world->objects.size());
-	for (auto& o : world->objects) {
-		if (o->has_rigidbody) {
-			bodies.push_back(o.data());
+	{
+		std::unique_lock<std::mutex> lock(update_mutex);
+		bodies.clear();
+		bodies.reserve(world->objects.size());
+		for (auto& o : world->objects) {
+			if (o->has_rigidbody) {
+				bodies.push_back(o.data());
+			}
 		}
+		//tree = BVHBuilder::Generate(objects);
 	}
-	//tree = BVHBuilder::Generate(objects);
-	computeThread = std::thread(Dispatch, this, world);
-	computeThread.detach();
+	if (!computeThread.joinable()) {
+		std::cout << "starting compute thread" << std::endl;
+		computeThread = std::thread(Dispatch, this, world);
+	}
+	condvar.notify_one();
 	return CB_STATUS::OK;
 }
 
 CB_STATUS _Backend_CPU::FinishUpdate(_World* world) {
-	//computeThread.join();
+	std::unique_lock<std::mutex> lock(update_mutex);
 	return CB_STATUS::OK;
 }
 

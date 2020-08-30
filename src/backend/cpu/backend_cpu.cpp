@@ -11,7 +11,7 @@ namespace {
 
 	void updateforces(ARGS) {
 		for (auto& o : b->bodies) {
-			if (o->dynamic) {
+			if (o->has_rigidbody && o->dynamic) {
 				o->rigidbody.accel = glm::vec3(0, w->gravity, 0);
 			}
 		}
@@ -19,7 +19,7 @@ namespace {
 
 	void movebodies(ARGS) {
 		for (auto& o : b->bodies) {
-			if (o->dynamic)
+			if (o->has_rigidbody && o->dynamic)
 				Impl_Object::ApplyForces(o, w);
 		}
 	}
@@ -71,12 +71,12 @@ namespace {
 				(co2->has_rigidbody && co2->dynamic) ? co2->rigidbody.bounce : 0);
 
 			if (im1 > 0) {
-				Impl_Object::AddOffsetAt(c.objs[0], c.distance * dm1, c.pos, -c.normal, idt);
+				Impl_Object::AddOffsetAt(c.objs[0], c.distance * dm1 * 2, c.pos, -c.normal, idt);
 				co1->rigidbody.velocity -= c.normal * closingVel1 - c.normal * bounce *
 					((dm2-dm1)*closingVel1 + 2*dm1*closingVel2);
 			}
 			if (im2 > 0) {
-				Impl_Object::AddOffsetAt(c.objs[1], c.distance * dm2, c.pos, c.normal, idt);
+				Impl_Object::AddOffsetAt(c.objs[1], c.distance * dm2 * 2, c.pos, c.normal, idt);
 				co2->rigidbody.velocity += c.normal * closingVel2 + c.normal * bounce *
 					(2*dm1*closingVel1 + (dm1-dm2)*closingVel2);
 			}
@@ -110,9 +110,9 @@ CB_STATUS _Backend_CPU::BeginUpdate(_World* world) {
 		bodies.clear();
 		bodies.reserve(world->objects.size());
 		for (auto& o : world->objects) {
-			if (o->has_rigidbody) {
+			//if (o->has_rigidbody) {
 				bodies.push_back(o.data());
-			}
+			//}
 		}
 		//tree = BVHBuilder::Generate(objects);
 	}

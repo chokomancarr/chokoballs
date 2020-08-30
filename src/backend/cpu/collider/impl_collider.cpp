@@ -77,13 +77,13 @@ End_Impl
 Impl_Collider_IMPL(Sphere, InfPlane)
 	const auto& ps = o1->position;
 	const auto& pp = o2->position;
+	const auto dp = ps - pp;
 	const auto pn = o2->rotation * glm::vec3(0, 0, 1);
-	const auto off = glm::dot(pp, pn);
-	const auto v = glm::dot(ps, pn) - off - c1->radius;
-	if (v > 0) {
+	const auto v = glm::dot(dp, pn) - c1->radius;
+	if (v < 0) {
 		addcontact(
 			-pn,
-			v / 2,
+			-v / 2,
 			ps - pn * (c1->radius - c.distance)
 		);
 	}
@@ -114,9 +114,9 @@ End_Impl
 namespace {
 	typedef std::array<Impl_Collider::colfn, ((int)COLLIDER_TYPE::_COUNT)*((int)COLLIDER_TYPE::_COUNT)> collut;
 
-	#define lutid(A, B) ((int)(A) << ((int)COLLIDER_TYPE::_COUNT)) + (int)(B)
+	#define lutid(A, B) ((int)(A) * ((int)COLLIDER_TYPE::_COUNT)) + (int)(B)
 	#define regcol(A, a)\
-		res[lutid(COLLIDER_TYPE::A, COLLIDER_TYPE::A)] = Impl_Collider::Collide ## a ## a
+		res[lutid(COLLIDER_TYPE::A, COLLIDER_TYPE::A)] = Impl_Collider::Collide ## a ## a;
 	#define regcol2(A, B, a, b)\
 		res[lutid(COLLIDER_TYPE::A, COLLIDER_TYPE::B)] = Impl_Collider::Collide ## a ## b;\
 		res[lutid(COLLIDER_TYPE::B, COLLIDER_TYPE::A)] = Impl_Collider::Collide ## a ## b ## i

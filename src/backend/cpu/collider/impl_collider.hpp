@@ -3,15 +3,16 @@
 
 CB_BEGIN_NAMESPACE
 
-namespace Impl_Collider {
+class Impl_Collider {
+public:
 #define colsig(a, b)\
     _Collide ## a ## b (pObject o1, pObject o2, Contact* cc, int& i)
 #define defcol(a, b)\
-    void colsig(a, b);\
-    inline void Collide ## a ## b(pObject* cs, Contact* cc, int& i) {\
+    static void colsig(a, b);\
+    static void Collide ## a ## b(pObject* cs, Contact* cc, int& i) {\
         _Collide ## a ## b(cs[0], cs[1], cc, i);\
     }\
-    inline void Collide ## a ## b ## i(pObject* cs, Contact* cc, int& i) {\
+    static void Collide ## a ## b ## i(pObject* cs, Contact* cc, int& i) {\
         _Collide ## a ## b(cs[1], cs[0], cc, i);\
     }
     typedef void(*colfn)(pObject*, Contact*, int&);
@@ -27,7 +28,7 @@ namespace Impl_Collider {
 
 #define End_Impl }
 
-    void findContacts(
+    static void findContacts(
         pObject objs[2],
         _Backend_CPU* bk,
         pWorld world

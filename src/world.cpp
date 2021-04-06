@@ -30,4 +30,8 @@ CB_STATUS _World::FinishUpdate() {
 	return ChokoBalls::backend->FinishUpdate(this);
 }
 
+CB_STATUS _World::Raycast(const Ray& ray, const uint64_t mask, Object& result) {
+	return ChokoBalls::backend->Raycast(this, ray, mask, result);
+}
+
 CB_END_NAMESPACE

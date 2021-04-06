@@ -26,6 +26,8 @@ public:
 	CB_STATUS BeginUpdate(_World*) override;
 
 	CB_STATUS FinishUpdate(_World*) override;
+
+	CB_STATUS Raycast(_World*, const Ray&, const uint64_t, RayHit&) override;
 };
 
 CB_END_NAMESPACE

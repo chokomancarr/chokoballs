@@ -46,6 +46,7 @@ CB_END_NAMESPACE
 
 #include "types/bbox.hpp"
 #include "types/ray.hpp"
+#include "types/rayhit.hpp"
 
 #include "object.hpp"
 

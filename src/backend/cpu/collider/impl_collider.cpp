@@ -111,6 +111,39 @@ Impl_Collider_IMPL(Sphere, Mesh)
 	}
 End_Impl
 
+
+Impl_RayCollider_IMPL(InfPlane)
+	const auto& pp = o->position;
+	const auto pn = o->rotation * glm::vec3(0, 0, 1);
+	const auto dr_n = glm::dot(r.direction, pn);
+	if (dr_n < 0) {
+		const auto cp_n = glm::dot(r.origin - pp, pn);
+		const auto d = -cp_n / dr_n;
+		if (d < r.maxd) {
+			cc.distance = d;
+			cc.position = r.origin + r.direction * d;
+			cc.normal = pn;
+		}
+	}
+End_Impl
+
+Impl_RayCollider_IMPL(Sphere)
+	const auto& pp = o->position;
+	const auto o2p = pp - r.origin;
+	const auto d2 = glm::length2(o2p);
+	const auto r2 = c->radius * c->radius;
+	if (d2 > r2) {
+		const auto d1 = std::sqrt(d2);
+		const auto cth = glm::dot(r.direction, o2p / d1);
+		const float d = d1 * cth - std::sqrt(d2 * (cth * cth - 1) + r2);
+		if (d < r.maxd) {
+			cc.distance = d;
+			cc.position = r.origin + r.direction * d;
+			cc.normal = glm::normalize(cc.position - pp);
+		}
+	}
+End_Impl
+
 namespace {
 	typedef std::array<Impl_Collider::colfn, ((int)COLLIDER_TYPE::_COUNT)*((int)COLLIDER_TYPE::_COUNT)> collut;
 
@@ -128,6 +161,22 @@ namespace {
 		//regcol2(SPHERE, MESH, Sphere, Mesh);
 		return res;
 	}
+
+#define regcolr(A, a)\
+		res[(int)COLLIDER_TYPE::A] = Impl_Collider::CollideRay ## a;
+
+	Impl_Collider::rcollut _getrlut() {
+		Impl_Collider::rcollut res = {};
+		regcolr(INFPLANE, InfPlane)
+		regcolr(SPHERE, Sphere)
+		
+		return res;
+	}
+}
+
+auto Impl_Collider::getrcollut() -> rcollut {
+	static const auto res = _getrlut();
+	return res;
 }
 
 void Impl_Collider::findContacts(

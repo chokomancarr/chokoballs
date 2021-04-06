@@ -22,13 +22,30 @@ public:
     defcol(Sphere, Mesh)
 
 #undef defcol
+
+#define colsigr(a)\
+    CollideRay ## a (Ray r, pObject o, RayHit& cc)
+#define defcolr(a)\
+    static void colsigr(a);
+
+	typedef void(*rcolfn)(Ray r, pObject o, RayHit& cc);
+
+	defcolr(InfPlane)
+	defcolr(Sphere)
+
 #define Impl_Collider_IMPL(a, b) void Impl_Collider::colsig(a, b) {\
 	auto c1 = (_Collider_ ## a *)o1->collider.data();\
 	auto c2 = (_Collider_ ## b *)o2->collider.data();
 
+#define Impl_RayCollider_IMPL(a) void Impl_Collider::colsigr(a) {\
+	auto c = (_Collider_ ## a *)o->collider.data();
+
 #define End_Impl }
 
-    static void findContacts(
+	typedef std::array<rcolfn, (int)COLLIDER_TYPE::_COUNT> rcollut;
+	static rcollut getrcollut();
+	
+	static void findContacts(
         pObject objs[2],
         _Backend_CPU* bk,
         pWorld world

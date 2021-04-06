@@ -129,4 +129,16 @@ CB_STATUS _Backend_CPU::FinishUpdate(_World* world) {
 	return CB_STATUS::OK;
 }
 
+CB_STATUS _Backend_CPU::Raycast(_World* world, const Ray& ray, const uint64_t mask, RayHit& result) {
+	const auto& lut = Impl_Collider::getrcollut();
+	RayHit con = {};
+	for (auto& o : world->objects) {
+		const auto fn = lut[(int)(o->collider->colliderType)];
+		assert(fn);
+		fn(ray, o.data(), con);
+	}
+
+
+}
+
 CB_END_NAMESPACE

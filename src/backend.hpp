@@ -17,6 +17,8 @@ public:
 	 * update the world contents
 	 */
 	virtual CB_STATUS FinishUpdate(_World*) = 0;
+
+	virtual CB_STATUS Raycast(_World*, const Ray&, const uint64_t, RayHit&) = 0;
 };
 
 CB_END_NAMESPACE

@@ -50,6 +50,8 @@ public:
 	 * This function does nothing if there are no active threads
 	 */
 	CB_STATUS FinishUpdate();
+
+	CB_STATUS Raycast(const Ray& ray, const uint64_t mask, RayHit& result);
 };
 
 CB_END_NAMESPACE

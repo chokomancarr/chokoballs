@@ -70,6 +70,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 add_library(ChokoBalls SHARED "")
+add_library(ChokoBalls::ChokoBalls ALIAS ChokoBalls)
 
 add_subdirectory("src")
 

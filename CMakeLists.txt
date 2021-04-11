@@ -74,4 +74,7 @@ add_library(ChokoBalls::ChokoBalls ALIAS ChokoBalls)
 
 add_subdirectory("src")
 
+target_include_directories(ChokoBalls PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
+
 target_link_libraries(ChokoBalls ${LIBS})

@@ -137,8 +137,7 @@ CB_STATUS _Backend_CPU::Raycast(_World* world, const Ray& ray, const uint64_t ma
 		assert(fn);
 		fn(ray, o.data(), con);
 	}
-
-
+	return CB_STATUS::OK;
 }
 
 CB_END_NAMESPACE
